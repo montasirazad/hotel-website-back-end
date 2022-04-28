@@ -20,16 +20,13 @@ async function run() {
         const database = client.db("all-bookings");
         const hotelDb = database.collection("booking");
 
-        const doc = {
-            title: 'Standard Double Room',
-            description: 'Standard Double Rooms are designed in open -concept living area and have many facilities.',
-            bed: 2,
-            capacity: 2,
-            bedType: 'Double',
-            price: 119
-        }
-        const result = await hotelDb.insertOne(doc);
-        console.log(`A document was inserted with the _id: ${result.insertedId}`);
+        app.post('/add-booking', async (req, res) => {
+            const frontData = req.body;
+            const result = await hotelDb.insertOne(frontData);
+            console.log(result);
+            res.json(result)
+        })
+
     } finally {
         // await client.close();
     }
